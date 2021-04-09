@@ -22,7 +22,7 @@ jobs:
       - name: Generate Report
         id: gen_test_report
         run: |
-        choco install opencppcoverage
-        OpenCppCoverage --sources BitOps -- "vstest.console.exe" Debug\OpsTest.dll
+          choco install opencppcoverage
+          OpenCppCoverage --sources BitOps -- "vstest.console.exe" Debug\OpsTest.dll
       - name: Upload Coverage to Codecov
         uses: codecov/codecov-action@v1
