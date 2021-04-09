@@ -21,7 +21,9 @@ jobs:
         id: setup_vstest
       - name: Setup OpenCppCoverage and add to PATh
         id: setup_opencppcoverage
-        run: choco install opencppcoverage && RefreshEnv.cmd
+        run: |
+        choco install -y opencppcoverage
+        echo "C:\Program Files\OpenCppCoverage\" >> $GITHUB_PATH
       - name: Generate Report
         id: generate_test_report
         run: opencppcoverage --sources BitOps -- "vstest.console.exe" Debug\OpsTest.dll
