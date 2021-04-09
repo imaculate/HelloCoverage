@@ -23,7 +23,7 @@ jobs:
         id: setup_opencppcoverage
         run: |
           choco install -y opencppcoverage
-          echo "C:\Program Files\OpenCppCoverage\" >> $GITHUB_PATH
+          echo "C:\Program Files\OpenCppCoverage" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
       - name: Generate Report
         id: generate_test_report
         run: opencppcoverage --sources BitOps -- "vstest.console.exe" Debug\OpsTest.dll
