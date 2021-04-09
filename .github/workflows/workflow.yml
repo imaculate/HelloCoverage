@@ -27,7 +27,7 @@ jobs:
       - name: Generate Report
         id: generate_test_report
         shell: cmd
-        run: OpenCppCoverage.exe --sources BitOps -- "vstest.console.exe" x64\Debug\OpsTest.dll
+        run: OpenCppCoverage.exe --sources BitOps --export_type binary -- "vstest.console.exe" x64\Debug\OpsTest.dll
       - name: Upload Coverage to Codecov
         uses: codecov/codecov-action@v1
         with:
