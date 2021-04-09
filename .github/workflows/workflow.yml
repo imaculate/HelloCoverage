@@ -23,9 +23,10 @@ jobs:
         id: setup_opencppcoverage
         run: |
           choco install -y opencppcoverage
-          echo "C:\Program Files\OpenCppCoverage" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+          echo "C:\Program Files\OpenCppCoverage" >> $env:GITHUB_PATH
       - name: Generate Report
         id: generate_test_report
-        run: opencppcoverage --sources BitOps -- "vstest.console.exe" Debug\OpsTest.dll
+        shell: cmd
+        run: OpenCppCoverage.exe --sources BitOps -- "vstest.console.exe" Debug\OpsTest.dll
       - name: Upload Coverage to Codecov
         uses: codecov/codecov-action@v1
