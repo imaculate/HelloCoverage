@@ -1,4 +1,4 @@
-name: CodeCov
+name: Upload CodeCov Report
 on: [push, pull_request]
 jobs:
   run:
@@ -21,10 +21,10 @@ jobs:
         id: setup_vstest
       - name: Download OpenCppCoverage
         id: setup_opencppcoverage1
-        run:  curl https://github.com/OpenCppCoverage/OpenCppCoverage/releases/download/release-0.9.9.0/OpenCppCoverageSetup-x64-0.9.9.0.exe --output OpenCppCoverageSetup.exe
+        run:  curl -L https://github.com/OpenCppCoverage/OpenCppCoverage/releases/download/release-0.9.9.0/OpenCppCoverageSetup-x64-0.9.9.0.exe --output OpenCppCoverageSetup-x64-0.9.9.0.exe
       - name: Install OpenCppCoverage
         id: setup_opencppcoverage2
-        run: OpenCppCoverageSetup.exe
+        run: OpenCppCoverageSetup-x64-0.9.9.0.exe
       - name: Generate Report
         id: gen_test_report
         run: OpenCppCoverage --sources BitOps -- "vstest.console.exe" Debug\OpsTest.dll
