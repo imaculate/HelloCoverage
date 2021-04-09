@@ -21,17 +21,12 @@ jobs:
         id: setup_vstest
       - name: Download OpenCppCoverage
         id: setup_opencppcoverage1
-        uses: suisei-cn/actions-download-file@v1
-        with:
-          url: "https://github.com/OpenCppCoverage/OpenCppCoverage/releases/download/release-0.9.9.0/OpenCppCoverageSetup-x64-0.9.9.0.exe"
-          target: $GITHUB_WORKSPACE
+        run:  curl https://github.com/OpenCppCoverage/OpenCppCoverage/releases/download/release-0.9.9.0/OpenCppCoverageSetup-x64-0.9.9.0.exe --output OpenCppCoverageSetup.exe
       - name: Install OpenCppCoverage
         id: setup_opencppcoverage2
-        working-directory: $GITHUB_WORKSPACE
-        run: OpenCppCoverageSetup-x64-0.9.9.0.exe
+        run: OpenCppCoverageSetup.exe
       - name: Generate Report
         id: gen_test_report
-        working-directory: $GITHUB_WORKSPACE\Debug\
-        run: OpenCppCoverage --sources BitOps -- "vstest.console.exe" OpsTest.dll
+        run: OpenCppCoverage --sources BitOps -- "vstest.console.exe" Debug\OpsTest.dll
       - name: Upload Coverage to Codecov
         uses: codecov/codecov-action@v1
