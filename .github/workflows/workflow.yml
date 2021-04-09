@@ -2,23 +2,45 @@ name: CodeCov
 on: [push, pull_request]
 jobs:
   run:
-    runs-on: ubuntu-latest
-    env:
-      OS: ubuntu-latest
-      PYTHON: '3.9'
+    runs-on: windows-latest
+    name: Build, Test , Upload Code Coverage Report
     steps:
-    - uses: checkout@v2
-      with:
-        fetch-depth: ‘2’
+      - name: Checkout code
+        uses: actions/checkout@v2.1.0
+        with:
+          fetch-depth: ‘2’
+        id: checkout_code
+      
+       - name: Setup MSBuild and add to PATH
+         uses: microsoft/setup-msbuild@v1.0.0
+         id: setup_msbuild
+        
+       - name: Run MSBuild
+         id: run_msbuild
+         working-directory: $
+         run: msbuild .\HelloWorld.sln
+        
+       - name: Setup VSTest and add to PATH
+         uses: darenm/Setup-VSTest@v1
+         id: setup_vstest
 
-    - name: Setup Python
-      uses: actions/setup-python@master
-      with:
-        python-version: 3.7
-    - name: Generate Report
-      run: |
-        pip install coverage
-        OpenCppCoverage --sources BitOps -- "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe" debug/OpsTest.dll
+       - name: Download OpenCppCoverage
+         id: download-cov-installation
+         uses: suisei-cn/actions-download-file@v1
+         with:
+           url: "https://github.com/OpenCppCoverage/OpenCppCoverage/releases/download/release-0.9.9.0/OpenCppCoverageSetup-x64-0.9.9.0.exe"
+           target: public/
+       
+       - name: Install OpenCppCoverage
+         id: install-cppcov
+         working-directory: $\public
+         run: OpenCppCoverageSetup-x64-0.9.9.0.exe
+    
+      - name: Generate Report
+        id: gen_test_report
+        working-directory: $\Debug\
+        run: OpenCppCoverage --sources BitOps -- "vstest.console.exe" OpsTest.dll
+      
     - name: Upload Coverage to Codecov
       uses: codecov/codecov-action@v1
       with:
