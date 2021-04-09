@@ -17,3 +17,8 @@ int divide_by_two(int n)
 {
     return n >> 1;
 }
+
+int multiply(int a, int b)
+{
+    return a * b;
+}
