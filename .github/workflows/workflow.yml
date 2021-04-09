@@ -15,7 +15,6 @@ jobs:
         id: setup_msbuild
       - name: Run MSBuild
         id: run_msbuild
-        working-directory: $GITHUB_WORKSPACE
         run: msbuild HelloWorld.sln
       - name: Setup VSTest and add to PATH
         uses: darenm/Setup-VSTest@v1
